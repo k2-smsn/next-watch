@@ -1,5 +1,5 @@
 import './globals.css';
-//import { TimerProvider } from './context/TimerContext';
+import { TimerProvider } from './context/timerContext';
 
 export const metadata = {
   title: 'Work Timer',

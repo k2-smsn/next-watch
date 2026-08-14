@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-//import { useTimer } from './context/TimerContext';
+import { useTimer } from './context/timerContext';
 import { formatTime } from '../lib/timer';
 import { recentDays, formatDate } from '../lib/streak';
 
