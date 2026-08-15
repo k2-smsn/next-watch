@@ -31,15 +31,15 @@ body {
 
 main {
   width: 100%;
-  max-width: 440px;
+  max-width: 480px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 36px;
 }
 
 h1 {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -55,7 +55,7 @@ h1 {
 
 .timer-display {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 4rem;
+  font-size: 4.8rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--text);
@@ -68,14 +68,14 @@ h1 {
 
 .goal-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.78rem;
+  font-size: 0.9rem;
   color: var(--muted);
 }
 
 .progress-bar-wrap {
-  height: 6px;
+  height: 8px;
   background: var(--border);
-  border-radius: 3px;
+  border-radius: 4px;
   overflow: hidden;
 }
 
@@ -83,7 +83,7 @@ h1 {
   height: 100%;
   width: 0%;
   background: linear-gradient(90deg, var(--accent), var(--accent-hover));
-  border-radius: 3px;
+  border-radius: 4px;
   transition: width 0.5s ease;
 }
 
@@ -92,7 +92,7 @@ h1 {
 }
 
 .progress-text {
-  font-size: 0.78rem;
+  font-size: 0.9rem;
   color: var(--muted);
 }
 
@@ -104,11 +104,11 @@ h1 {
 
 .btn {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   font-weight: 500;
-  padding: 12px 28px;
+  padding: 15px 34px;
   border: 1.5px solid transparent;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
@@ -149,11 +149,11 @@ h1 {
 .streak-section {
   background: var(--card);
   border: 1.5px solid var(--border);
-  border-radius: 10px;
-  padding: 20px 24px;
+  border-radius: 12px;
+  padding: 26px 28px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .streak-box {
@@ -164,18 +164,18 @@ h1 {
 
 .streak-number {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 2.2rem;
+  font-size: 2.7rem;
   font-weight: 700;
   color: var(--accent);
 }
 
 .streak-label {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--muted);
 }
 
 .streak-sub {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: var(--muted);
 }
 
@@ -188,7 +188,7 @@ h1 {
 
 .history-section h2 {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.78rem;
+  font-size: 0.88rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -206,9 +206,9 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
+  padding: 13px 0;
   border-bottom: 1px solid var(--border);
-  font-size: 0.88rem;
+  font-size: 1rem;
 }
 
 .history-list li:last-child {
@@ -225,8 +225,8 @@ h1 {
 }
 
 .history-badge {
-  font-size: 0.7rem;
-  padding: 2px 7px;
+  font-size: 0.78rem;
+  padding: 3px 9px;
   border-radius: 20px;
   font-weight: 500;
 }
@@ -276,7 +276,7 @@ h1 {
   border: none;
   cursor: pointer;
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.78rem;
+  font-size: 0.88rem;
   color: var(--accent-hover);
   padding: 0;
   text-decoration: none;
@@ -289,12 +289,13 @@ h1 {
 /* ── All Logs Panel ── */
 .logs-panel {
   width: 100%;
-  max-width: 440px;
+  max-width: 480px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 48px 16px 80px;
+  padding: 48px 16px 48px;
+  height: calc(100vh - 96px);
 }
 
 .logs-header {
@@ -308,7 +309,7 @@ h1 {
   border: none;
   cursor: pointer;
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--accent-hover);
   padding: 0;
   text-decoration: none;
@@ -320,7 +321,7 @@ h1 {
 
 .logs-title {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -334,9 +335,9 @@ h1 {
 
 .filter-btn {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.78rem;
+  font-size: 0.88rem;
   font-weight: 500;
-  padding: 6px 14px;
+  padding: 8px 16px;
   border: 1.5px solid var(--border);
   border-radius: 20px;
   background: transparent;
@@ -356,6 +357,30 @@ h1 {
   border-color: var(--accent);
 }
 
+/* Scrollable log list (logs page only — keeps the panel from growing past viewport height) */
+.logs-panel .history-list {
+  overflow-y: auto;
+  padding-right: 6px;
+  flex: 1;
+}
+
+.logs-panel .history-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.logs-panel .history-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.logs-panel .history-list::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.logs-panel .history-list::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
 /* ── Modal ── */
 .modal-overlay {
   position: fixed;
@@ -371,25 +396,25 @@ h1 {
 .modal {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 28px 28px 24px;
-  max-width: 340px;
+  border-radius: 12px;
+  padding: 32px 32px 28px;
+  max-width: 380px;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.5);
 }
 
 .modal-title {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 1rem;
+  font-size: 1.15rem;
   font-weight: 600;
   color: var(--text);
 }
 
 .modal-body {
-  font-size: 0.85rem;
+  font-size: 0.92rem;
   color: var(--muted);
   line-height: 1.5;
   margin-bottom: 8px;

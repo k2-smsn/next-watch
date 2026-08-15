@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useEffect, useRef, useState, useCallback } from 'react';
 import {
-  getDateString,
   fetchDaySeconds,
   saveDaySeconds,
   getGoalSeconds,
