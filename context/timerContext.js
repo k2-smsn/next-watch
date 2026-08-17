@@ -5,12 +5,12 @@ import {
   fetchDaySeconds,
   saveDaySeconds,
   getGoalSeconds,
-} from '../../lib/timer';
+} from '../lib/timer';
 import {
   fetchAllDays,
   computeCurrentStreak,
   computeLongestStreak,
-} from '../../lib/streak';
+} from '../lib/streak';
 
 const TimerContext = createContext(null);
 
