@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useRef, useState, useCallback } from 'react';
+import { createClient } from '../lib/supabase/browserClient';
 import {
   fetchDaySeconds,
   saveDaySeconds,
@@ -15,6 +16,7 @@ import {
 const TimerContext = createContext(null);
 
 export function TimerProvider({ children }) {
+  const [userId, setUserId] = useState(null);
   const [accumulatedSeconds, setAccumulatedSeconds] = useState(0);
   const [displaySeconds, setDisplaySeconds] = useState(0);
   const [running, setRunning] = useState(false);
@@ -27,21 +29,49 @@ export function TimerProvider({ children }) {
   const startTimestampRef = useRef(null);
   const intervalRef = useRef(null);
 
-  const refreshHistory = useCallback(async () => {
-    const days = await fetchAllDays();
+  const refreshHistory = useCallback(async (uid) => {
+    if (!uid) return;
+    const days = await fetchAllDays(uid);
     setAllDays(days);
     setCurrentStreak(computeCurrentStreak(days));
     setLongestStreak(computeLongestStreak(days));
   }, []);
 
+  // Get the logged-in user, and re-run this whole load whenever auth state changes
   useEffect(() => {
-    (async () => {
-      const seconds = await fetchDaySeconds();
+    const supabase = createClient();
+
+    async function loadForUser(uid) {
+      setLoading(true);
+      if (!uid) {
+        setAccumulatedSeconds(0);
+        setDisplaySeconds(0);
+        setAllDays([]);
+        setCurrentStreak(0);
+        setLongestStreak(0);
+        setLoading(false);
+        return;
+      }
+      const seconds = await fetchDaySeconds(uid);
       setAccumulatedSeconds(seconds);
       setDisplaySeconds(seconds);
-      await refreshHistory();
+      await refreshHistory(uid);
       setLoading(false);
-    })();
+    }
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      const uid = session?.user?.id ?? null;
+      setUserId(uid);
+      loadForUser(uid);
+    });
+
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      const uid = session?.user?.id ?? null;
+      setUserId(uid);
+      loadForUser(uid);
+    });
+
+    return () => listener.subscription.unsubscribe();
   }, [refreshHistory]);
 
   useEffect(() => {
@@ -54,17 +84,18 @@ export function TimerProvider({ children }) {
       clearInterval(intervalRef.current);
     }
     return () => clearInterval(intervalRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [running]);
 
   const start = useCallback(async () => {
-    if (running) return;
+    if (running || !userId) return;
     startTimestampRef.current = Date.now();
     setRunning(true);
-    await saveDaySeconds(accumulatedSeconds);
-  }, [running, accumulatedSeconds]);
+    await saveDaySeconds(userId, accumulatedSeconds);
+  }, [running, accumulatedSeconds, userId]);
 
   const stop = useCallback(async () => {
-    if (!running) return;
+    if (!running || !userId) return;
     const elapsed = Math.floor((Date.now() - startTimestampRef.current) / 1000);
     const finalSeconds = accumulatedSeconds + elapsed;
 
@@ -73,11 +104,12 @@ export function TimerProvider({ children }) {
     setDisplaySeconds(finalSeconds);
     startTimestampRef.current = null;
 
-    await saveDaySeconds(finalSeconds);
-    await refreshHistory();
-  }, [running, accumulatedSeconds, refreshHistory]);
+    await saveDaySeconds(userId, finalSeconds);
+    await refreshHistory(userId);
+  }, [running, accumulatedSeconds, userId, refreshHistory]);
 
   const reset = useCallback(async () => {
+    if (!userId) return;
     if (running) {
       clearInterval(intervalRef.current);
       setRunning(false);
@@ -85,16 +117,16 @@ export function TimerProvider({ children }) {
     }
     setAccumulatedSeconds(0);
     setDisplaySeconds(0);
-    await saveDaySeconds(0);
-    await refreshHistory();
-  }, [running, refreshHistory]);
+    await saveDaySeconds(userId, 0);
+    await refreshHistory(userId);
+  }, [running, userId, refreshHistory]);
 
   useEffect(() => {
     const saveOnHide = () => {
-      if (!running) return;
+      if (!running || !userId) return;
       const elapsed = Math.floor((Date.now() - startTimestampRef.current) / 1000);
       const finalSeconds = accumulatedSeconds + elapsed;
-      saveDaySeconds(finalSeconds);
+      saveDaySeconds(userId, finalSeconds);
     };
 
     const handleVisibility = () => {
@@ -108,7 +140,7 @@ export function TimerProvider({ children }) {
       document.removeEventListener('visibilitychange', handleVisibility);
       window.removeEventListener('beforeunload', saveOnHide);
     };
-  }, [running, accumulatedSeconds]);
+  }, [running, accumulatedSeconds, userId]);
 
   const value = {
     seconds: displaySeconds,
@@ -121,7 +153,6 @@ export function TimerProvider({ children }) {
     allDays,
     currentStreak,
     longestStreak,
-    refreshHistory,
   };
 
   return <TimerContext.Provider value={value}>{children}</TimerContext.Provider>;
