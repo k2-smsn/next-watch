@@ -25,7 +25,8 @@ body {
   font-family: 'Space Grotesk', sans-serif;
   min-height: 100vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   padding: 48px 16px 80px;
 }
 
@@ -301,6 +302,7 @@ h1 {
 .logs-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 16px;
 }
 
@@ -435,4 +437,102 @@ h1 {
 .btn.danger:hover {
   background: var(--danger-hover);
   border-color: var(--danger-hover);
+}
+
+/* ── Auth pages (login / signup) ── */
+.auth-page {
+  width: 100%;
+  max-width: 380px;
+  margin: 80px auto 0;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.auth-page h1 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.auth-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.auth-form input {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 11px 14px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.auth-form input:focus {
+  border-color: var(--accent);
+}
+
+.auth-form .btn {
+  margin-top: 4px;
+  width: 100%;
+}
+
+.auth-form .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-error {
+  font-size: 0.85rem;
+  color: var(--danger-hover);
+  background: rgba(242, 84, 91, 0.1);
+  border: 1px solid rgba(242, 84, 91, 0.3);
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+.auth-switch {
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+.auth-switch a {
+  color: var(--accent-hover);
+  text-decoration: none;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
+}
+
+.page-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.sign-out-btn {
+  font-size: 0.85rem;
 }

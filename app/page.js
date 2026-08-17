@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useTimer } from '../context/timerContext';
 import { formatTime } from '../lib/timer';
 import { recentDays, formatDate } from '../lib/streak';
+import SignOutButton from '@/components/SignOutButton';
 
 export default function Home() {
   const {
@@ -55,8 +56,10 @@ export default function Home() {
   return (
     <>
       <main id="mainView">
-        <h1>Work Timer</h1>
-
+        <div className="page-top">
+          <h1>Work Timer</h1>
+          <SignOutButton />
+        </div>
         <section className="timer-section">
           <div className={`timer-display${running ? ' running' : ''}`}>
             {formatTime(seconds)}
