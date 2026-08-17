@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { createClient } from '../../lib/supabase/browserClient';
+import { createClient } from '../lib/supabase/browserClient';
 
 export default function Header() {
   const [user, setUser] = useState(undefined); // undefined = not checked yet
