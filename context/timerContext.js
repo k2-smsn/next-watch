@@ -2,16 +2,8 @@
 
 import { createContext, useContext, useEffect, useRef, useState, useCallback } from 'react';
 import { createClient } from '../lib/supabase/browserClient';
-import {
-  fetchDaySeconds,
-  saveDaySeconds,
-  getGoalSeconds,
-} from '../lib/timer';
-import {
-  fetchAllDays,
-  computeCurrentStreak,
-  computeLongestStreak,
-} from '../lib/streak';
+import { fetchDaySeconds, saveDaySeconds, getGoalSeconds } from '../lib/timer';
+import { fetchAllDays, computeCurrentStreak, computeLongestStreak } from '../lib/streak';
 
 const TimerContext = createContext(null);
 
@@ -40,6 +32,7 @@ export function TimerProvider({ children }) {
   // Get the logged-in user, and re-run this whole load whenever auth state changes
   useEffect(() => {
     const supabase = createClient();
+    let currentUserId = null;
 
     async function loadForUser(uid) {
       setLoading(true);
@@ -61,12 +54,17 @@ export function TimerProvider({ children }) {
 
     supabase.auth.getSession().then(({ data: { session } }) => {
       const uid = session?.user?.id ?? null;
+      currentUserId = uid;
       setUserId(uid);
       loadForUser(uid);
     });
 
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       const uid = session?.user?.id ?? null;
+
+      if (uid === currentUserId) return; //handle auto token refresh bug
+
+      currentUserId = uid;
       setUserId(uid);
       loadForUser(uid);
     });
